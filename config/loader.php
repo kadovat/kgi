@@ -4,7 +4,6 @@ spl_autoload_register("Loader_App");
 
 function Loader_Lib($class){	
     $file = LIB_ROOT.'/'.strtolower(preg_replace('/_/','/',$class)).".php";    
-	var_dump($file);
     if(is_file($file)){
         require_once($file);
     }

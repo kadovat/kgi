@@ -5,13 +5,7 @@ define('APP_ROOT', WEB_ROOT.'/app');
 define('PLUGIN_ROOT', WEB_ROOT.'/plugin');
 define('KAD_TIME_NOW',$_SERVER['REQUEST_TIME']);
 define('KAD_PLUGIN_ON',true);
-
+define('CUSTOM_SUFFIX','nano');
 class Define{
-	const KEY_SIDEBAR = 'sidebar';
-	const KEY_PLUGIN = 'plugin';
-	const PLUGIN_ACTION_PAGEVIEW_AFTER = 0x001;
-	const KEY_IMAGE_PNG = 0x002;
-	const SALT = "x^=1[@";
-	const MCRYPT_CIPHER = MCRYPT_DES;
-	const MCRYPT_MODE = MCRYPT_MODE_ECB;
+	const TEST = 'test';
 }
