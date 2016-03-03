@@ -15,18 +15,12 @@ server {
 
     location ~ .*\.php$
     {
+        include fastcgi.conf;
         fastcgi_pass 127.0.0.1:9000;
-        fastcgi_index index.php;
-        include fastcgi_params;
-
     }
 
     location /
     {
-        if ( -f \$request_filename)
-        {
-            break;
-        }
         if ( !-f \$request_filename)
         {
             rewrite ^/(.+)$ /index.php last;
@@ -37,35 +31,3 @@ server {
 EOT;
 	echo $confFile;
 }
-/*
-server {
-    listen 8080 ;
-    server_name blog.dev_kadovat.com;
-    root /usr/local/var/www/kad/blog/public;
-    index index.html index.htm index.php;
-
-
-    location ~ .*\.php$
-    {
-        #fastcgi_pass  unix:/usr/local/var/run/php5-fpm.sock;
-        fastcgi_pass 127.0.0.1:9000;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        #fastcgi_param SCRIPT_FILENAME /Users/kad/data/www/kad/blog/public/ttt.php;
-
-    }
-
-    location /
-    {
-        if ( -f $request_filename)
-        {
-            break;
-        }
-        if ( !-f $request_filename)
-        {
-            rewrite ^/(.+)$ /index.php last;
-            break;
-        }
-    }
-}
-*/
