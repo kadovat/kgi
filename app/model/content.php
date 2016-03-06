@@ -1,5 +1,5 @@
 <?php 
-class ModelContent extends ModelAbs{
+class ModelContent extends Kgi_Model{
 
 	static protected $_instance;
 

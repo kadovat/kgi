@@ -1,11 +1,11 @@
 <?php
-if($argc < 4){
-	echo "usage:$argv[0] <web server> <domain> <ip:port|port> ...";
+if($argc < 5){
+	echo "usage:$argv[0] <web server> <domain> <ip:port|port> <root path> ...";
 	exit;
 }
 if($argv[1] == 'nginx'){
 	$listen_socket = $argv[3];
-	$root = dirname(dirname(__FILE__)) . "/public";
+	$root = $argv[4] . "/public";
 $confFile = <<<EOT
 server {
 	listen  $listen_socket ;

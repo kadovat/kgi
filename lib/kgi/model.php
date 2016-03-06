@@ -1,5 +1,5 @@
 <?php
-abstract class ModelAbs{
+abstract class Kgi_Model{
 	protected $_data;
 	public function __construct($id){ 
 		$this->_init($id);
