@@ -1,19 +1,17 @@
 <?php
 class ModelStorageContent extends Kgi_Storage_Mysql{
-	protected $_tbName = 'content';
-	protected $_PDO;
 
 	public function __construct(){
 		try{
-			$this->_PDO = new PDO("mysql:host={$this->_host};dbname={$this->_dbName}", $this->_user, $this->_pw); 
+			$this->_object = new PDO("{$this->_driver}:host={$this->_host};dbname={$this->_dbName}", $this->_user, $this->_pw); 
 		}catch(\Exception $e){
-			$this->_PDO = null;
+			$this->_object = null;
 		}
 
 	}
 
 	public function set(ModelContent $model){
-		$Stmt = $this->_PDO->prepare("REPLACE INTO {$this->_tbName} set 
+		$Stmt = $this->_object->prepare("REPLACE INTO {$this->_tbName} set 
 										title = :title, 
 										content = :content, 
 										cTime = :cTime, 
@@ -26,10 +24,7 @@ class ModelStorageContent extends Kgi_Storage_Mysql{
 	}
 
 	public function get($id, $returnNull = false){
-		if(!$this->_PDO){
-			return "ouch!!!";
-		}
-		$Stmt = $this->_PDO->prepare("SELECT * FROM {$this->_tbName} where id = :id");
+		$Stmt = $this->_object->prepare("SELECT * FROM {$this->_tbName} where id = :id");
 	    $Stmt->bindParam(':id', $id);
 	    $Stmt->execute();
 	    $res = $Stmt->fetch();
@@ -44,7 +39,7 @@ class ModelStorageContent extends Kgi_Storage_Mysql{
 	}
 
 	public function batchIds($offset, $num){
-		$Stmt = $this->_PDO->prepare("SELECT id FROM {$this->_tbName} ORDER BY cTime DESC LIMIT {$offset}, {$num}");
+		$Stmt = $this->_object->prepare("SELECT id FROM {$this->_tbName} ORDER BY cTime DESC LIMIT {$offset}, {$num}");
 	    $Stmt->execute();
 	    $ids = array();
 	    while($res = $Stmt->fetch()){
