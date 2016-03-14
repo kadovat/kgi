@@ -1,5 +1,5 @@
 <?php
-class ModelStorageContent extends ModelStorageAbs{
+class ModelStorageContent extends Kgi_Storage_Mysql{
 	protected $_tbName = 'content';
 	protected $_PDO;
 
