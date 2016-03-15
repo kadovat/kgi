@@ -2,6 +2,13 @@
 class ModelStorageContent extends Kgi_Storage_Mysql{
 
 	public function __construct(){
+		parent::__construct(
+				array(
+					'_host' => '127.0.0.1',
+					'_dbName' => 'kdv_blog',
+					'_user' => 'root',
+					)
+				);
 		try{
 			$this->_object = new PDO("{$this->_driver}:host={$this->_host};dbname={$this->_dbName}", $this->_user, $this->_pw); 
 		}catch(\Exception $e){
