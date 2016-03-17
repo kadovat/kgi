@@ -1,20 +1,36 @@
 <?php
-class Kgi_Storage_Base{
-	protected $_object;
-	protected $_host;
-	protected $_port;
+class Kgi_Storage_Base extends Kgi_Base{
 
-	public function __construct($config){
-		if(is_string($config) && file_exists($config)){
-			$config = (array) require $config;
-		}
-		foreach($config as $key => $value){
-			$this->setConfig($key, $value);
-		}
-		return $this;
+	const DRIVER_MYSQL = 'mysql';
+
+	const CONFIG_SERVERS = 'servers';
+
+	protected $_connectPool = array();
+
+	protected $_driver;
+
+	protected $_servers;
+
+	public function __construct(){
+		parent::__construct();
+		
 	}
 
-	public function setConfig($key, $value){
-		$this->$key = $value;
+	public function _checkConfig($config){
+		if(!isset($config[self::CONFIG_SERVERS])){
+			return false;
+		}
+		foreach( $config[self::CONFIG_SERVERS] 
+				as $serverId => $server){
+			if( !isset($server['host']) 
+					|| !isset($server['port']) ){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public function setServers($servers){
+		$this->_servers = $servers;
 	}
 }
