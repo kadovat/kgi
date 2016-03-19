@@ -1,5 +1,9 @@
 <?php
 class ModelStorageContent extends Kgi_Storage_Mysql{
+	public function __construct(){
+		parent::__construct();
+		$this->_tbName = 'content';
+	}
 
 
 	public function set(ModelContent $model){
