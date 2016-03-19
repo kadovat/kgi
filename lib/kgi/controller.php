@@ -1,13 +1,21 @@
 <?php
 abstract class Kgi_Controller{
-	protected $_app = null;
+    protected $input = null;
+    protected $output = null;
+    protected $doc = null;
+    protected $name = '';
+    //protected $runtimeLog = null;
+    //protected $actionLog = null;
+    protected $tpl = null;
+    protected $outputFormat = null;
+    protected $code = 0;
+
 	
-	public function __construct(Kgi_App $app){
-		$this->_app = $app;
+	public function __construct(){
 	}
 
 	public function getInput($key,$regex = null, $default = null, $filtType = Kgi_Helper_Input_Abs::TYPE_FILT_VALIDATE){
-		return $this->_app->input->get($key, $regex, $default, $filtType);
+		return $this->input->get($key, $regex, $default, $filtType);
 	}
 
 	public function getCookie($key, $regex = null, $default = null){
@@ -28,36 +36,143 @@ abstract class Kgi_Controller{
 	}
 	
 	public function assign($varName,$value){		
-		$this->_app->doc->data[$varName] = $value;
+		$this->doc->data[$varName] = $value;
 	}
 
 	public function setSwap($key, $data){
-		$this->_app->doc->swapData[$key] = $data;
+		$this->doc->swapData[$key] = $data;
 	}
 
 	public function getSwap($key){
-		return isset($this->_app->doc->swapData[$key]) ? $this->_app->doc->swapData[$key] : null;
+		return isset($this->doc->swapData[$key]) ? $this->_app->doc->swapData[$key] : null;
 	}
 	
 	public function getTpl(){
-		return APP_ROOT.'/tpl'.$this->_app->tpl;
+		return APP_ROOT.'/tpl/'.$this->tpl;
 	}
 
 	public function setTpl($tpl){
-		return $this->_app->tpl = $tpl;
+		return $this->tpl = $tpl;
+	}
+
+	public function getName(){
+		return $this->name;
+	}
+
+	public function setName($name){
+		return $this->name = $name;
 	}
 
 	public function getOutputFormat(){
-		return $this->_app->getOutputFormat();
+		if(isset($this->outputFormat))
+			return $this->outputFormat;
+
+        $of = $this->input->get('of');
+
+        if(is_null($of))
+            $of = 'htm';
+        else
+            $of = strtolower($of);
+
+        return $of;
 	}
 
-	public function setOutputFormat($format){
-		return $this->_app->setOutputFormat($format);
-	}
+	public function setOutputFormat($of){
+        $this->outputFormat = strtolower($of);
+    }
 
 	public function code($code){
-		return $this->_app->code = $code;
+		return $this->code = $code;
 	}
 
-	public abstract function run();
+    public function render(){
+        if($this->getOutputFormat() == 'json'){
+            $output = array_merge(array('code' => $this->code), $this->doc->toArray());
+            echo json_encode($output);
+        }else{
+            $this->_renderTpl();
+        }
+    }
+
+    protected function _renderTpl(){
+        foreach($this->doc->data as $var => $value){
+            $$var = $value;
+        }
+        $tpl = array('path' => $this->getTpl());
+        require  APP_ROOT.'/tpl/include/body.php';
+    }	
+
+    protected function beforeActionExecute(){
+        //step 0. initialize log component && doc
+        $this->doc = new Kgi_Document();
+
+        //step 1. initialize input component from request method
+        
+        if(!isset($_SERVER['REQUEST_METHOD']))
+            $_SERVER['REQUEST_METHOD'] = 'CONSOLE';
+
+        $_SERVER['REQUEST_METHOD'] = strtoupper($_SERVER['REQUEST_METHOD']);
+
+        switch($_SERVER['REQUEST_METHOD']){
+        case 'GET':
+            $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_GET);
+            break;
+        case 'POST':
+            if(strcasecmp($_SERVER['CONTENT_TYPE'], 'application/x-amf') == 0)
+                $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_POST_IN_AMF);
+            else
+                $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_POST);
+            break;
+        default:
+            $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_CONSOLE);
+            break;
+        }
+
+
+        $outputFormat = $this->getOutputFormat();
+
+        
+        switch($outputFormat){
+        case 'json':
+            $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_JSON);
+            break;
+        // case 'xml':
+        //     $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_XML);
+        //     break;
+        // case 'amf':
+        //     $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_AMF);
+        //     break;
+        // case 'img':
+        //     $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_IMG);
+        //     break;
+        default:
+            $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_HTML);
+            break;
+        }
+
+		switch($outputFormat){
+			case 'json':
+				break;
+				// case 'xml':
+				//     $this->tpl .= '.xml';
+				//     break;
+			default:
+				$this->tpl .= str_replace('.', '/', $this->name) . '.php';
+				break;
+		}
+    }
+
+    protected function afterActionExecute(){
+    }
+
+
+	public function run($action = ''){
+		$this->beforeActionExecute();	
+		if(!$action){
+			$action = 'index';
+		}
+		$this->$action();
+		$this->afterActionExecute();	
+		$this->render();
+	}
 }

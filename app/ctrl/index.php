@@ -1,6 +1,6 @@
 <?php
 class CtrlIndex extends Kgi_Controller{
-    public function run(){
+    public function index(){
     	$id = $this->getInput('id','/[0-9a-f][0-9a-f]*/', 1);
 
 		$contentInstance = ModelContent::getInstance($id);
