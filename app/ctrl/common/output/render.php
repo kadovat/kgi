@@ -1,5 +1,5 @@
 <?php
-class ProcCommonOutputRender extends Kgi_Processor{
+class CtrlCommonOutputRender extends Kgi_Controller{
     public function run(){
 		if($this->getOutputFormat() == 'json'){
             $output = array_merge(array('code' => $this->_app->code), $this->_app->doc->toArray());

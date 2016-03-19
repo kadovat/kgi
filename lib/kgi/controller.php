@@ -1,5 +1,5 @@
 <?php
-abstract class Kgi_Processor{
+abstract class Kgi_Controller{
 	protected $_app = null;
 	
 	public function __construct(Kgi_App $app){
