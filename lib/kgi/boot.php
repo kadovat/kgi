@@ -4,24 +4,31 @@ class Kgi_Boot{
     public function run(){
         $uri = $_SERVER['REQUEST_URI'];
         $uri = explode('?', $uri);
-        $url = $uri[0];
+        $uri = $uri[0];
 		$suffix = empty(CUSTOM_SUFFIX) ? '.php' : '.' . CUSTOM_SUFFIX;
-        if(substr($url, -5) != $suffix && substr($url, -1) != '/'){
-            throw new Kgi_Exception("bad url.");
+        if(substr($uri, - strlen($suffix)) != $suffix && substr($uri, -1) != '/'){
+            throw new Kgi_Exception('bad url.');
         }
 
-       	$url = str_replace($suffix, "", $url); 
+       	$uri = str_replace($suffix, '', $uri); 
+       	$uri = substr($uri, 1); 
 
-        if(self::$defaultIndex && (!$url|| $url == '/'))
-            $url = "/index";
-        if(!file_exists(APP_ROOT."/router{$url}.php"))
-            throw new Kgi_Exception("interface file missing,[{$url}{$suffix}]");
+		$pathArray = explode('/', $uri);
+
+        if(self::$defaultIndex && empty($pathArray[0])){
+			$uri = 'index';
+			$className = 'CtrlIndex';
+            $action = '';
+		}else{
+			$className = 'Ctrl' . str_replace(' ', '', ucwords(str_replace('/', ' ', $uri)));
+			$action = end($pathArray) ;
+		}
+        if(!file_exists(APP_ROOT . "/ctrl/{$uri}.php"))
+            throw new Kgi_Exception("interface file missing,[{$uri}{$suffix}]");
  
-        $className = str_replace(" ", "", ucwords(str_replace("/", " ", $url)));
-        $className = "Router$className";
-
-        $app = new $className();
-        $app->name = str_replace("/", ".", $url);
-        $app->run();
+        
+        $ctrl = new $className();
+        $ctrl->setName(str_replace("/", ".", $uri));
+        $ctrl->run($action);
     }
 }
