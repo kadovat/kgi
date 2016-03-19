@@ -11,14 +11,14 @@ class Kgi_Base{
 		if(is_string($config) && file_exists($config)){
 			$config = (array) require $config;
 		}
-
-		if( ! $this->_checkConfig($config)){
-			return ;
-			//TODO: throw exception
-		}
-		foreach($config as $key => $value){
-			$func = 'set' . $key;
-			$this->$func($value);
+		try{
+			foreach($config as $key => $value){
+				$func = 'set' . $key;
+				$this->$func($value);
+			}
+		}catch(\Exception $e){
+			var_dump($e->getMessage());
+			die;
 		}
 	}
 

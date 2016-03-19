@@ -3,8 +3,6 @@ class Kgi_Storage_Base extends Kgi_Base{
 
 	const DRIVER_MYSQL = 'mysql';
 
-	const CONFIG_SERVERS = 'servers';
-
 	protected $_connectPool = array();
 
 	protected $_driver;
@@ -16,21 +14,14 @@ class Kgi_Storage_Base extends Kgi_Base{
 		
 	}
 
-	public function _checkConfig($config){
-		if(!isset($config[self::CONFIG_SERVERS])){
-			return false;
-		}
-		foreach( $config[self::CONFIG_SERVERS] 
-				as $serverId => $server){
+	public function setServers($servers){
+		foreach($servers as $serverId => $server){
 			if( !isset($server['host']) 
 					|| !isset($server['port']) ){
-				return false;
+				throw new \Exception("bad server config");
 			}
 		}
-		return true;
-	}
-
-	public function setServers($servers){
 		$this->_servers = $servers;
+		return true;
 	}
 }
