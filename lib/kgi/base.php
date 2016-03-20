@@ -21,8 +21,4 @@ class Kgi_Base{
 			die;
 		}
 	}
-
-	protected function _checkConfig($config){
-		return true;
-	}
 }
