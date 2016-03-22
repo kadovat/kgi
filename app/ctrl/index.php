@@ -1,5 +1,9 @@
 <?php
-class CtrlIndex extends Kgi_Controller{
+namespace  App\Ctrl;
+use Kgi\Controller as KgiController;
+use App\Model\Content as ModelContent; 
+
+class Index extends KgiController{
     public function index(){
     	$id = $this->getInput('id','/[0-9a-f][0-9a-f]*/', 1);
 

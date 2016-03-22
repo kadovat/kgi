@@ -1,5 +1,6 @@
 <?php
-class Kgi_Helper_Input_Get extends Kgi_Helper_Input_Abs{
+namespace Kgi\Helper\Input;
+class Get extends Abs{
 	
 	public function __construct(){
 		$this->_content = $_GET;

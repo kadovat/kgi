@@ -1,5 +1,6 @@
 <?php
-class Kgi_Storage_Mysql extends Kgi_Storage_Base{
+namespace Kgi\Storage;
+class Mysql extends Base{
 
 	protected $_shardingKey;
 
@@ -22,7 +23,7 @@ class Kgi_Storage_Mysql extends Kgi_Storage_Base{
 		if(!isset($this->_connectPool[$serverId])){
 			try{
 				$dsn = $this->getDsn($serverId);
-				$this->_connectPool[$serverId] = new PDO($dsn, $this->_servers[$serverId]['user'], $this->_servers[$serverId]['pw']); 
+				$this->_connectPool[$serverId] = new \PDO($dsn, $this->_servers[$serverId]['user'], $this->_servers[$serverId]['pw']); 
 			}catch(\Exception $e){
 				//TODO: throw exception
 			}

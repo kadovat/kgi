@@ -1,4 +1,6 @@
 <?php
+namespace Config;
+define('CONFIG_ROOT',dirname(__FILE__));
 define('WEB_ROOT',dirname(__FILE__).'/..');
 define('LIB_ROOT', WEB_ROOT.'/lib');
 define('APP_ROOT', WEB_ROOT.'/app');

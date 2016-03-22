@@ -1,5 +1,6 @@
 <?php
-class Kgi_Document implements ArrayAccess{
+namespace Kgi;
+class Document implements \ArrayAccess{
     // public $ret = 0; //deprecated
     public $data = array();
     public $swapData = array();

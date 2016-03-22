@@ -1,5 +1,6 @@
 <?php
-abstract class Kgi_Controller{
+namespace Kgi;
+abstract class Controller{
     protected $input = null;
     protected $output = null;
     protected $doc = null;
@@ -14,7 +15,7 @@ abstract class Kgi_Controller{
 	public function __construct(){
 	}
 
-	public function getInput($key,$regex = null, $default = null, $filtType = Kgi_Helper_Input_Abs::TYPE_FILT_VALIDATE){
+	public function getInput($key,$regex = null, $default = null, $filtType = Helper\Input\Abs::TYPE_FILT_VALIDATE){
 		return $this->input->get($key, $regex, $default, $filtType);
 	}
 
@@ -104,7 +105,7 @@ abstract class Kgi_Controller{
 
     protected function beforeActionExecute(){
         //step 0. initialize log component && doc
-        $this->doc = new Kgi_Document();
+        $this->doc = new Document();
 
         //step 1. initialize input component from request method
         
@@ -115,16 +116,16 @@ abstract class Kgi_Controller{
 
         switch($_SERVER['REQUEST_METHOD']){
         case 'GET':
-            $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_GET);
+            $this->input = Helper\Factory::create(Helper\Factory::INPUT_GET);
             break;
         case 'POST':
             if(strcasecmp($_SERVER['CONTENT_TYPE'], 'application/x-amf') == 0)
-                $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_POST_IN_AMF);
+                $this->input = Helper\Factory::create(Helper\Factory::INPUT_POST_IN_AMF);
             else
-                $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_POST);
+                $this->input = Helper\Factory::create(Helper\Factory::INPUT_POST);
             break;
         default:
-            $this->input = Kgi_Helper_Factory::create(Kgi_Helper_Factory::INPUT_CONSOLE);
+            $this->input = Helper\Factory::create(Helper\Factory::INPUT_CONSOLE);
             break;
         }
 
@@ -134,19 +135,19 @@ abstract class Kgi_Controller{
         
         switch($outputFormat){
         case 'json':
-            $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_JSON);
+            $this->output = Helper\Factory::create(Helper\Factory::OUTPUT_JSON);
             break;
         // case 'xml':
-        //     $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_XML);
+        //     $this->output = Helper\Factory::create(Helper\Factory::OUTPUT_XML);
         //     break;
         // case 'amf':
-        //     $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_AMF);
+        //     $this->output = Helper\Factory::create(Helper\Factory::OUTPUT_AMF);
         //     break;
         // case 'img':
-        //     $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_IMG);
+        //     $this->output = Helper\Factory::create(Helper\Factory::OUTPUT_IMG);
         //     break;
         default:
-            $this->output = Kgi_Helper_Factory::create(Kgi_Helper_Factory::OUTPUT_HTML);
+            $this->output = Helper\Factory::create(Helper\Factory::OUTPUT_HTML);
             break;
         }
 

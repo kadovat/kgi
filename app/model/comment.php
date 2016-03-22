@@ -1,7 +1,7 @@
 <?php 
 namespace App\Model;
-use App\Model\Storage\Content as StorageContent;
-class Content extends \Kgi\Model{
+use App\Model\Storage\Comment as StorageComment;
+class Comment extends \Kgi\Model{
 
 	static protected $_instance;
 
@@ -13,7 +13,7 @@ class Content extends \Kgi\Model{
 	protected function _init($id){
 			$this->_data['id'] = $id;
 			$this->_data['content'] = '';
-			$this->_data['title'] = '';
+			$this->_data['author'] = '';
 			$this->_data['cTime'] = '';
 	} 
 
@@ -25,20 +25,20 @@ class Content extends \Kgi\Model{
 		return $this->_data['id'];
 	}
 
-	public function setContent($value){
+	public function setComment($value){
 		$this->_data['content'] = $value;
 	}
 
-	public function getContent(){
+	public function getComment(){
 		return $this->_data['content'];
 	}
 
-	public function setTitle($value){
-		$this->_data['title'] = $value;
+	public function setAuthor($value){
+		$this->_data['author'] = $value;
 	}
 
-	public function getTitle(){
-		return $this->_data['title'];
+	public function getAuthor(){
+		return $this->_data['author'];
 	}
 
 	public function setCTime($value){
@@ -54,23 +54,23 @@ class Content extends \Kgi\Model{
 	}
 
 	static public function get($id, $returnNull = false){
-		$storage =  new StorageContent();
+		$storage =  new StorageComment();
 		$model = $storage->get($id, $returnNull);
 		return $model;
 	}
 
 	static public function set($model){
-		$storage = new StorageContent();
+		$storage = new StorageComment();
 		return $storage->set($model);
 	}
 
 	static public function del($id){
-		$storage =  new StorageContent();
+		$storage =  new StorageComment();
 		return $storage->del($id);
 	}
 
 	static public function batchIds($offset, $num){
-		$storage =  new StorageContent();
+		$storage =  new StorageComment();
 		return $storage->batchIds($offset, $num);
 	}
 }

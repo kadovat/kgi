@@ -1,5 +1,7 @@
 <?php
-class Kgi_Storage_Base extends Kgi_Base{
+namespace Kgi\Storage;
+use Kgi\Base as KgiBase;
+class Base extends KgiBase{
 
 	const DRIVER_MYSQL = 'mysql';
 

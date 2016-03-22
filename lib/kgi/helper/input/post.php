@@ -1,5 +1,6 @@
 <?php
-class Kgi_Helper_Input_Post extends Kgi_Helper_Input_Abs{
+namespace Kgi\Helper\Input;
+class Post extends Abs{
 	
 	public function __construct(){
 		$this->_content = $_POST;

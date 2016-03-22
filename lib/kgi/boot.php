@@ -1,6 +1,8 @@
 <?php
-class Kgi_Boot{
-    public static $defaultIndex;
+namespace Kgi;
+use Kgi\Exception as KgiException;
+class Boot{
+    public static $defaultIndex = 'index';
     public function run(){
         $uri = $_SERVER['REQUEST_URI'];
         $uri = explode('?', $uri);
@@ -14,17 +16,17 @@ class Kgi_Boot{
        	$uri = substr($uri, 1); 
 
 		$pathArray = explode('/', $uri);
-
         if(self::$defaultIndex && empty($pathArray[0])){
 			$uri = 'index';
-			$className = 'CtrlIndex';
             $action = '';
+			$className = 'App\\Ctrl\\Index';
 		}else{
-			$className = 'Ctrl' . str_replace(' ', '', ucwords(str_replace('/', ' ', $uri)));
-			$action = end($pathArray) ;
+			$action = array_pop($pathArray) ;
+			$className = 'App\\Ctrl\\' . str_replace(' ', '\\', ucwords(implode(' ', $pathArray)));
 		}
-        if(!file_exists(APP_ROOT . "/ctrl/{$uri}.php"))
-            throw new Kgi_Exception("interface file missing,[{$uri}{$suffix}]");
+        if(!file_exists(WEB_ROOT . '/' . str_replace('\\', '/', $className) . ".php" )){
+            throw new KgiException("interface file missing,[{$uri}{$suffix}]");
+		}
  
         
         $ctrl = new $className();

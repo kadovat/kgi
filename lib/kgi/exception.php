@@ -1,3 +1,4 @@
 <?php
-class Kgi_Exception extends Exception{
+namespace Kgi;
+class Exception extends \Exception{
 }

@@ -1,5 +1,6 @@
 <?php
-abstract class Kgi_Helper_Input_Abs{
+namespace Kgi\Helper\Input;
+abstract class Abs{
 	protected $_content = array();
 	const TYPE_FILT_VALIDATE = 0x01;
 	const TYPE_FILT_FILT_SPECIALCHARS = 0x02;

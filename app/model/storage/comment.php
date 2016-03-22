@@ -1,22 +1,22 @@
 <?php
 namespace App\Model\Storage;
-use App\Model\Content as ModelContent;
-class Content extends \Kgi\Storage\Mysql{
+use App\Model\Comment as ModelComment;
+class Comment extends \Kgi\Storage\Mysql{
 	public function __construct(){
 		parent::__construct();
-		$this->_tbName = 'content';
+		$this->_tbName = 'comment';
 	}
 
 
-	public function set(ModelContent $model){
+	public function set(ModelComment $model){
 		$Stmt = $this->getObject()->prepare("REPLACE INTO {$this->_tbName} set 
-										title = :title, 
-										content = :content, 
+										author = :author, 
+										comment = :comment, 
 										cTime = :cTime, 
 										id = :id");
 	    $Stmt->bindParam(':id', $model->getId());
-	    $Stmt->bindParam(':title', $model->getTitle());
-	    $Stmt->bindParam(':content', $model->getContent());
+	    $Stmt->bindParam(':author', $model->getAuthor());
+	    $Stmt->bindParam(':comment', $model->getComment());
 	    $Stmt->bindParam(':cTime', $model->getCTime());	   
 	    $Stmt->execute();
 	}
@@ -28,10 +28,10 @@ class Content extends \Kgi\Storage\Mysql{
 	    $res = $Stmt->fetch();
 	    if(!isset($res['id']) && $returnNull)
 	    	return null;
-	    $model = new ModelContent($id);
+	    $model = new ModelComment($id);
 	    isset($res['id']) && $model->setId($res['id']);
-	    isset($res['content']) && $model->setContent($res['content']);
-	    isset($res['title']) && $model->setTitle($res['title']);
+	    isset($res['comment']) && $model->setComment($res['comment']);
+	    isset($res['author']) && $model->setAuthor($res['author']);
 	    isset($res['cTime']) && $model->setCTime($res['cTime']);
 	    return $model;
 	}

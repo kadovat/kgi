@@ -1,5 +1,6 @@
 <?php
-class Kgi_Helper_Factory{	
+namespace Kgi\Helper;
+class Factory{	
 	const INPUT_GET = 0x0001;
 	const INPUT_POST = 0x0002;
 	const INPUT_POST_IN_AMF = 0x0003; 
@@ -10,11 +11,11 @@ class Kgi_Helper_Factory{
 	static function create($type){	
 		switch ($type){
 			case self::INPUT_GET:
-				return new Kgi_Helper_Input_Get();
+				return new Input\Get();
 			case self::INPUT_POST:
-				return new Kgi_Helper_Input_Post();
+				return new Input\Post();
 			case self::INPUT_CONSOLE:
-				return new Kgi_Helper_Input_Console();
+				return new Input\Console();
 		}
 	}
 }

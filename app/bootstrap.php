@@ -1,11 +1,13 @@
 <?php
-class bootStrap{
+use Kgi\Boot as KgiBoot;
+use Kgi\Exception as KgiException;
+class Bootstrap{
     static public function boot(){
         try{
-            Kgi_Boot::$defaultIndex = true;
-            $boot = new Kgi_Boot();
+            KgiBoot::$defaultIndex = true;
+            $boot = new KgiBoot();
             $boot->run();
-        }catch(Kgi_Exception $e){
+        }catch(KgiException $e){
             echo $e->getMessage();
         }
     }

@@ -1,5 +1,6 @@
 <?php
-abstract class Kgi_Model{
+namespace Kgi;
+abstract class Model{
 	protected $_data;
 	public function __construct($id){ 
 		$this->_init($id);
