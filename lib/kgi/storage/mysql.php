@@ -43,4 +43,14 @@ class Mysql extends Base{
 
 		return $this->connect($serverId);
 	}
+
+	public function select($columns = '*'){
+	}
+
+	public function fetch(){
+		return $this->query($sql);
+	}
+
+	public function query($sql){
+	}
 }

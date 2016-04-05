@@ -36,7 +36,7 @@ class Content extends \Kgi\Storage\Mysql{
 	    return $model;
 	}
 
-	public function batchIds($offset, $num){
+	public function batchIds($offset, $num, $orderBy='cTime',: $order = 'DESC'){
 		$Stmt = $this->getObject()->prepare("SELECT id FROM {$this->_tbName} ORDER BY cTime DESC LIMIT {$offset}, {$num}");
 	    $Stmt->execute();
 	    $ids = array();
