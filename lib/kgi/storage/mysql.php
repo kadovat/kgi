@@ -45,12 +45,31 @@ class Mysql extends Base{
 	}
 
 	public function select($columns = '*'){
+		//TODO
 	}
 
 	public function fetch(){
-		return $this->query($sql);
+		return $this->query($sql)->fetch();
 	}
 
-	public function query($sql){
+	public function query($sql, $params = array()){
+		//TODO
+	}
+
+	public function update($table, array $data, array $conditions){
+		//TODO
+	}
+
+	public function insert($table, array $data){
+	}
+
+	public function count($table, $conditions = false){
+	}
+
+	public function lastInsertId(){
+	}
+
+	protected function checkKeys($table, $keys){
+		//TODO
 	}
 }
