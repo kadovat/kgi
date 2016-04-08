@@ -9,5 +9,5 @@ define('KAD_TIME_NOW',$_SERVER['REQUEST_TIME']);
 define('KAD_PLUGIN_ON',true);
 define('CUSTOM_SUFFIX','nano');
 class Define{
-	const TEST = 'test';
+    const TEST = 'test';
 }

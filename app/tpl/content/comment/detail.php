@@ -1,3 +1,3 @@
 <div class = 'contentBoard col-md-8 main'>
-	<?php echo $comment; ?>
+    <?php echo $comment; ?>
 </div>

@@ -12,8 +12,8 @@ class Boot{
             throw new Kgi_Exception('bad url.');
         }
 
-       	$uri = str_replace($suffix, '', $uri); 
-       	$uri = substr($uri, 1); 
+           $uri = str_replace($suffix, '', $uri); 
+           $uri = substr($uri, 1); 
 
         $pathArray = explode('/', $uri);
         if(self::$defaultIndex && empty($pathArray[0])){

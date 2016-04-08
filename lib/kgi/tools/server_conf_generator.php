@@ -1,17 +1,17 @@
 <?php
 if($argc < 5){
-	echo "usage:$argv[0] <web server> <domain> <ip:port|port> <root path> ...";
-	exit;
+    echo "usage:$argv[0] <web server> <domain> <ip:port|port> <root path> ...";
+    exit;
 }
 if($argv[1] == 'nginx'){
-	$listen_socket = $argv[3];
-	$root = $argv[4] . "/public";
+    $listen_socket = $argv[3];
+    $root = $argv[4] . "/public";
 $confFile = <<<EOT
 server {
-	listen  $listen_socket ;
-	server_name $argv[2] ;
-	root  $root;
-	index index.php;
+    listen  $listen_socket ;
+    server_name $argv[2] ;
+    root  $root;
+    index index.php;
 
     location ~ .*\.php$
     {
@@ -29,5 +29,5 @@ server {
     }
 }
 EOT;
-	echo $confFile;
+    echo $confFile;
 }
