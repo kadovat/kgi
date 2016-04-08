@@ -18,7 +18,7 @@ class Boot{
 		$pathArray = explode('/', $uri);
         if(self::$defaultIndex && empty($pathArray[0])){
 			$uri = 'index';
-            $action = '';
+			$action = '';
 			$className = 'App\\Ctrl\\Index';
 		}else{
 			$action = array_pop($pathArray) ;
